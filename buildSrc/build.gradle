@@ -1,0 +1,23 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
+
+repositories {
+    mavenCentral()
+}
+
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            eachDependency { DependencyResolveDetails details ->
+                if (details.requested.group == 'org.yaml' && details.requested.name == 'snakeyaml') {
+                    details.useVersion '2.4'
+                    details.because 'Avoid resolving non-existent android variant'
+                }
+            }
+        }
+    }
+}

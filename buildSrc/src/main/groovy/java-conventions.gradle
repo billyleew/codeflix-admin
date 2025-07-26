@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+}
+
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.vavr:vavr:0.10.4'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+}
+
+tasks.named("test") {
+    useJUnitPlatform()
+}
+
+tasks.register('unitTests', Test) {
+    description = 'Runs unit tests'
+    group = 'verification'
+    useJUnitPlatform {
+        includeTags('unitTest')
+    }
+    shouldRunAfter(tasks.named('test'))
+}
+
+tasks.register('integrationTests', Test) {
+    description = 'Runs integration tests'
+    group = 'verification'
+    useJUnitPlatform {
+        includeTags('integrationTest')
+    }
+    shouldRunAfter(tasks.named('unitTests'))
+}
+
+tasks.register('e2eTests', Test) {
+    description = 'Runs end-to-end tests'
+    group = 'verification'
+    useJUnitPlatform {
+        includeTags('e2eTest')
+    }
+    shouldRunAfter(tasks.named('integrationTests'))
+}
