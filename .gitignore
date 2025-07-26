@@ -25,12 +25,10 @@ hs_err_pid*
 
 # Gradle
 .gradle/
-/build/
 !gradle/wrapper/gradle-wrapper.jar
 
 # Maven
 /logs/
-/target/
 /dependency-reduced-pom.xml
 release.properties
 
